@@ -184,6 +184,14 @@ kubectl apply -f kubernetes/base/orchestrator/deployment.yaml
 echo "Déploiement des LLM workers..."
 kubectl apply -f kubernetes/base/llm-workers/
 
+# Déploiement de la Citizen API
+echo "Déploiement de la Citizen API..."
+kubectl apply -f kubernetes/base/citizen-api/deployment.yaml
+
+# Déploiement du Frontend
+echo "Déploiement du Frontend..."
+kubectl apply -f kubernetes/base/frontend/deployment.yaml
+
 echo ""
 echo "⏳ Attente du démarrage des pods..."
 echo "Cela peut prendre 10-15 minutes (téléchargement des modèles)"
@@ -224,6 +232,19 @@ echo "    kubectl get pods -n climate-ai -l component=llm-worker"
 echo ""
 echo "  - Accéder à l'API de l'orchestrateur (port-forward):"
 echo "    kubectl port-forward -n climate-ai svc/orchestrator-service 8000:8000"
+echo ""
+echo "  - Accéder à la Citizen API (port-forward):"
+echo "    kubectl port-forward -n climate-ai svc/citizen-api-service 8002:8002"
+echo ""
+echo "  - Accéder au Frontend (port-forward):"
+echo "    kubectl port-forward -n climate-ai svc/frontend-service 8080:80"
+echo "    Puis ouvrez http://localhost:8080 dans votre navigateur"
+echo ""
+echo "  - Voir les logs du Frontend:"
+echo "    kubectl logs -f -n climate-ai -l app=frontend"
+echo ""
+echo "  - Voir les logs de la Citizen API:"
+echo "    kubectl logs -f -n climate-ai -l app=citizen-api"
 echo ""
 echo "  - Surveiller les ressources GPU:"
 echo "    kubectl top pods -n climate-ai"
