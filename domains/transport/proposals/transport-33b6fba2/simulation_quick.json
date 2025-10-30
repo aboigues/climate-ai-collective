@@ -1,0 +1,207 @@
+{
+  "simulation_type": "quick",
+  "proposal_id": "transport-33b6fba2",
+  "co2_impact": {
+    "yearly_breakdown": [
+      {
+        "year": 1,
+        "reduction_tonnes": 283.33,
+        "cumulative_tonnes": 283.33
+      },
+      {
+        "year": 2,
+        "reduction_tonnes": 566.67,
+        "cumulative_tonnes": 850.0
+      },
+      {
+        "year": 3,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 1700.0
+      },
+      {
+        "year": 4,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 2550.0
+      },
+      {
+        "year": 5,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 3400.0
+      },
+      {
+        "year": 6,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 4250.0
+      },
+      {
+        "year": 7,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 5100.0
+      },
+      {
+        "year": 8,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 5950.0
+      },
+      {
+        "year": 9,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 6800.0
+      },
+      {
+        "year": 10,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 7650.0
+      },
+      {
+        "year": 11,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 8500.0
+      },
+      {
+        "year": 12,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 9350.0
+      },
+      {
+        "year": 13,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 10200.0
+      },
+      {
+        "year": 14,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 11050.0
+      },
+      {
+        "year": 15,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 11900.0
+      },
+      {
+        "year": 16,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 12750.0
+      },
+      {
+        "year": 17,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 13600.0
+      },
+      {
+        "year": 18,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 14450.0
+      },
+      {
+        "year": 19,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 15300.0
+      },
+      {
+        "year": 20,
+        "reduction_tonnes": 850.0,
+        "cumulative_tonnes": 16150.0
+      }
+    ],
+    "totals": {
+      "5_years": 3400.0,
+      "10_years": 7650.0,
+      "20_years": 16150.0
+    },
+    "scenarios": {
+      "pessimistic": {
+        "factor": 0.6,
+        "total_10y": 4590.0,
+        "total_20y": 9690.0,
+        "description": "Adoption lente, difficultés de mise en œuvre"
+      },
+      "realistic": {
+        "factor": 1.0,
+        "total_10y": 7650.0,
+        "total_20y": 16150.0,
+        "description": "Mise en œuvre conforme aux prévisions"
+      },
+      "optimistic": {
+        "factor": 1.4,
+        "total_10y": 10710.0,
+        "total_20y": 22610.0,
+        "description": "Adoption rapide, effets de synergie"
+      }
+    },
+    "equivalent": {
+      "cars_10y": 1663.0,
+      "trees_10y": 306000.0,
+      "description": "Équivalent à retirer X voitures de la circulation pendant 10 ans"
+    }
+  },
+  "economic_impact": {
+    "investment": {
+      "total_chf": 15000000,
+      "breakdown": {
+        "infrastructure": 9000000.0,
+        "personnel": 3750000.0,
+        "communication": 750000.0,
+        "contingency": 1500000.0
+      }
+    },
+    "benefits": {
+      "co2_value_10y": 765000.0,
+      "co2_value_20y": 1615000.0,
+      "co2_price_per_tonne": 100,
+      "additional_benefits": [
+        "Amélioration de la santé publique",
+        "Création d'emplois",
+        "Innovation technologique",
+        "Indépendance énergétique"
+      ]
+    },
+    "roi": {
+      "roi_10y_percent": -94.9,
+      "roi_20y_percent": -89.23,
+      "payback_years": 196.1,
+      "cost_per_tonne_co2": 1960.78
+    },
+    "comparison": {
+      "eu_carbon_price_current": 85,
+      "competitiveness": "high"
+    }
+  },
+  "feasibility": {
+    "score": 10,
+    "duration_assessment": "appropriate",
+    "cost_assessment": "reasonable",
+    "risk_level": "low",
+    "success_factors": [
+      {
+        "factor": "Support politique",
+        "importance": "high",
+        "status": "to_assess"
+      },
+      {
+        "factor": "Acceptabilité sociale",
+        "importance": "high",
+        "status": "to_assess"
+      },
+      {
+        "factor": "Faisabilité technique",
+        "importance": "high",
+        "status": "good"
+      },
+      {
+        "factor": "Disponibilité des ressources",
+        "importance": "medium",
+        "status": "good"
+      }
+    ],
+    "recommendations": [
+      "Engager les parties prenantes dès le début",
+      "Mettre en place un suivi régulier des indicateurs",
+      "Prévoir des ajustements selon les retours terrain"
+    ]
+  },
+  "metadata": {
+    "generated_at": "2025-10-30T15:51:15.265319Z",
+    "version": "1.0"
+  }
+}
