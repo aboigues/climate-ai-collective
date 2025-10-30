@@ -134,44 +134,48 @@ jobs:
           COST=$(jq -r '.economic_impact.investment_chf' simulation.json)
           ROI=$(jq -r '.economic_impact.roi_20y_pct' simulation.json)
           PAYBACK=$(jq -r '.economic_impact.payback_years' simulation.json)
+          CURRENT_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          PR_BODY=$(printf "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s" \
+            "## 🌍 Nouvelle Proposition Climatique" \
+            "" \
+            "**Domaine:** ${DOMAIN}" \
+            "**ID Proposition:** ${PROPOSAL_ID}" \
+            "**Générée par:** Climate AI Orchestrator" \
+            "**Date:** ${CURRENT_DATE}" \
+            "" \
+            "### 📊 Résultats de Validation" \
+            "" \
+            "- **Score:** ${VALIDATION_SCORE}/10" \
+            "- **Statut:** ✅ Validée" \
+            "" \
+            "### 🎯 Impact Estimé" \
+            "" \
+            "- **Réduction CO2 (10 ans):** ${CO2_IMPACT} tonnes" \
+            "- **Coût d'implémentation:** ${COST} CHF" \
+            "- **ROI (20 ans):** ${ROI}%" \
+            "- **Payback:** ${PAYBACK} ans" \
+            "" \
+            "### 📋 Prochaines Étapes" \
+            "" \
+            "1. ✅ Validation automatique complétée" \
+            "2. ⏳ En attente de review par IA experte" \
+            "3. ⏳ Simulation approfondie à lancer" \
+            "4. ⏳ Vote citoyen à ouvrir" \
+            "" \
+            "### 🔗 Fichiers Générés" \
+            "" \
+            "- [Proposition complète](domains/${DOMAIN}/proposals/${PROPOSAL_ID}/proposal.json)" \
+            "- [Rapport de validation](domains/${DOMAIN}/proposals/${PROPOSAL_ID}/validation.json)" \
+            "- [Résultats simulation](domains/${DOMAIN}/proposals/${PROPOSAL_ID}/simulation_quick.json)" \
+            "" \
+            "---" \
+            "" \
+            "🤖 *Cette PR a été créée automatiquement par le Climate AI Collective*")
 
           gh pr create \
             --title "🤖 [${DOMAIN}] New AI Proposal - ${PROPOSAL_ID}" \
-            --body "## 🌍 Nouvelle Proposition Climatique
-
-**Domaine:** ${DOMAIN}
-**ID Proposition:** ${PROPOSAL_ID}
-**Générée par:** Climate AI Orchestrator
-**Date:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-
-### 📊 Résultats de Validation
-
-- **Score:** ${VALIDATION_SCORE}/10
-- **Statut:** ✅ Validée
-
-### 🎯 Impact Estimé
-
-- **Réduction CO2 (10 ans):** ${CO2_IMPACT} tonnes
-- **Coût d'implémentation:** ${COST} CHF
-- **ROI (20 ans):** ${ROI}%
-- **Payback:** ${PAYBACK} ans
-
-### 📋 Prochaines Étapes
-
-1. ✅ Validation automatique complétée
-2. ⏳ En attente de review par IA experte
-3. ⏳ Simulation approfondie à lancer
-4. ⏳ Vote citoyen à ouvrir
-
-### 🔗 Fichiers Générés
-
-- [Proposition complète](domains/${DOMAIN}/proposals/${PROPOSAL_ID}/proposal.json)
-- [Rapport de validation](domains/${DOMAIN}/proposals/${PROPOSAL_ID}/validation.json)
-- [Résultats simulation](domains/${DOMAIN}/proposals/${PROPOSAL_ID}/simulation_quick.json)
-
----
-
-🤖 *Cette PR a été créée automatiquement par le Climate AI Collective*" \
+            --body "$PR_BODY" \
             --label "ai-generated,${DOMAIN},needs-review" \
             --base main \
             --head "$BRANCH"
