@@ -176,7 +176,6 @@ jobs:
           gh pr create \
             --title "🤖 [${DOMAIN}] New AI Proposal - ${PROPOSAL_ID}" \
             --body "$PR_BODY" \
-            --label "ai-generated,${DOMAIN},needs-review" \
             --base main \
             --head "$BRANCH"
 
