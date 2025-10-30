@@ -72,7 +72,7 @@ jobs:
       - name: Validate proposal
         id: validate
         run: |
-          python services/validation/validator.py \
+          python services/validation/validator_cli.py \
             --proposal proposal.json \
             --output validation.json
       
