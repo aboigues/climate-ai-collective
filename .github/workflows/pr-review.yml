@@ -10,7 +10,12 @@ jobs:
   ai-review:
     runs-on: ubuntu-latest
     if: contains(github.event.pull_request.labels.*.name, 'ai-generated')
-    
+
+    permissions:
+      contents: read
+      pull-requests: write
+      actions: write
+
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
