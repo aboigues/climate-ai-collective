@@ -1,0 +1,29 @@
+# Git attributes for consistent line endings
+
+# Default behavior: use native line endings
+* text=auto
+
+# Text files that should have Unix (LF) endings
+*.py text eol=lf
+*.sh text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+Makefile text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar.gz binary
+
+# Model files (if committed)
+*.bin binary
+*.gguf binary
+*.safetensors binary

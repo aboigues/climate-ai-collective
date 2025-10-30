@@ -1,0 +1,214 @@
+# Climate AI Collective - Configuration Example
+# Copy this to config.yaml and fill in your values
+
+# Infomaniak Public Cloud Configuration
+infomaniak:
+  project_id: "your-infomaniak-project-id"
+  region: "ch-dc1"  # Geneva datacenter
+  
+  # Object Storage (S3-compatible)
+  s3:
+    endpoint: "https://s3.infomaniak.com"
+    bucket: "climate-ai-data"
+    access_key: "${S3_ACCESS_KEY}"  # Use environment variable
+    secret_key: "${S3_SECRET_KEY}"
+  
+  # Kubernetes Cluster
+  kubernetes:
+    cluster_name: "climate-ai-cluster"
+    namespace: "climate-ai"
+    gpu_node_pool: "gpu-l4-pool"
+
+# LLM Configuration
+llm:
+  # Orchestrator (Mistral Small)
+  orchestrator:
+    enabled: true
+    replicas: 1
+    model: "mistralai/Mistral-Small-Instruct-2409"
+    quantization: "awq"
+    gpu_count: 1
+    max_model_len: 32768
+    gpu_memory_utilization: 0.85
+  
+  # Mistral Large (Complex Tasks)
+  mistral_large:
+    enabled: true
+    replicas: 1
+    model: "mistralai/Mistral-Large-Instruct-2411"
+    quantization: "awq"
+    gpu_count: 2
+    max_model_len: 131072
+    gpu_memory_utilization: 0.90
+    specialization: "complex_generation"
+  
+  # DeepSeek R1 (Validation)
+  deepseek:
+    enabled: true
+    replicas: 1
+    model: "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+    quantization: "gptq"
+    gpu_count: 1
+    max_model_len: 32768
+    gpu_memory_utilization: 0.85
+    specialization: "technical_validation"
+  
+  # Llama 3.3 (Synthesis)
+  llama:
+    enabled: true
+    replicas: 0  # Scale to zero when unused
+    model: "meta-llama/Llama-3.3-70B-Instruct"
+    quantization: "awq"
+    gpu_count: 1
+    max_model_len: 65536
+    gpu_memory_utilization: 0.90
+    specialization: "synthesis"
+    autoscaling:
+      enabled: true
+      min_replicas: 0
+      max_replicas: 2
+
+# GitHub Integration
+github:
+  repo: "your-org/climate-ai-collective"
+  token: "${GITHUB_TOKEN}"
+  webhook_secret: "${GITHUB_WEBHOOK_SECRET}"
+  
+  # Branch Strategy
+  branches:
+    main: "main"
+    proposals_prefix: "ai-proposal/"
+  
+  # Automation
+  automation:
+    auto_pr: true
+    auto_review: true
+    auto_merge: false  # Require manual approval
+
+# Database
+database:
+  type: "postgresql"
+  host: "${DB_HOST}"
+  port: 5432
+  database: "climate_ai_db"
+  username: "${DB_USERNAME}"
+  password: "${DB_PASSWORD}"
+  
+  # Connection Pool
+  pool_size: 10
+  max_overflow: 20
+
+# Simulation Configuration
+simulation:
+  # Quick Simulation
+  quick:
+    enabled: true
+    timeout_minutes: 5
+    scenarios: ["pessimistic", "realistic", "optimistic"]
+  
+  # Deep Simulation
+  deep:
+    enabled: true
+    timeout_minutes: 120
+    models:
+      - "fair"  # Climate model
+      - "osemosys"  # Energy system
+      - "lca"  # Lifecycle assessment
+  
+  # Systemic Simulation
+  systemic:
+    enabled: false  # Enable later
+    timeout_minutes: 360
+
+# Validation Thresholds
+validation:
+  immediate:
+    min_completeness_score: 0.9
+    min_coherence_score: 7.0
+    max_blocking_issues: 0
+  
+  quick_sim:
+    trigger_deep_sim_score: 7.0
+    cost_per_tonne_co2_threshold: 500  # CHF
+  
+  deep_sim:
+    trigger_citizen_vote_score: 8.0
+
+# Scheduling
+scheduling:
+  # AI Iterations
+  iterations:
+    enabled: true
+    cron: "0 9 * * 1"  # Every Monday at 9:00 UTC
+    domains:
+      - "transport"
+      - "energie"
+      - "batiment"
+      - "agriculture"
+      - "industrie"
+      - "transversal"
+    rotation: true  # Rotate through domains
+  
+  # Maintenance
+  maintenance:
+    model_cache_cleanup: "0 2 * * 0"  # Sunday 2:00 AM
+    simulation_cleanup: "0 3 * * 0"
+
+# Monitoring
+monitoring:
+  enabled: true
+  
+  # Prometheus
+  prometheus:
+    enabled: true
+    port: 9090
+  
+  # Grafana
+  grafana:
+    enabled: true
+    port: 3000
+  
+  # Logging
+  logging:
+    level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+    format: "json"
+    
+  # Alerts
+  alerts:
+    email: "alerts@climate-ai-collective.org"
+    slack_webhook: "${SLACK_WEBHOOK_URL}"
+
+# Citizen Interface (Future)
+citizen_interface:
+  enabled: false  # Not yet implemented
+  url: "https://dashboard.climate-ai-collective.org"
+  
+  voting:
+    enabled: false
+    authentication: "github"  # or "email", "oauth"
+
+# Rate Limiting
+rate_limiting:
+  llm_calls:
+    per_minute: 60
+    per_hour: 1000
+  
+  api:
+    per_minute: 100
+    per_hour: 5000
+
+# Feature Flags
+features:
+  auto_pr_creation: true
+  auto_ai_review: true
+  deep_simulation: true
+  systemic_simulation: false
+  citizen_voting: false
+  multi_language: false
+
+# Development Settings
+development:
+  debug: false
+  mock_llm_calls: false
+  skip_simulations: false
+  log_llm_prompts: true

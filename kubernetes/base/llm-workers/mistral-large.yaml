@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mistral-large-vllm
+  namespace: climate-ai
+  labels:
+    app: mistral-large
+    component: llm-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mistral-large
+  template:
+    metadata:
+      labels:
+        app: mistral-large
+        component: llm-worker
+    spec:
+      containers:
+      - name: vllm-mistral-large
+        image: vllm/vllm-openai:v0.3.0
+        command:
+        - python3
+        - -m
+        - vllm.entrypoints.openai.api_server
+        - --model
+        - mistralai/Mistral-Large-Instruct-2411
+        - --quantization
+        - awq
+        - --tensor-parallel-size
+        - "2"
+        - --max-model-len
+        - "131072"
+        - --gpu-memory-utilization
+        - "0.90"
+        - --port
+        - "8000"
+        - --trust-remote-code
+        - --enable-prefix-caching
+        ports:
+        - containerPort: 8000
+          name: http
+        resources:
+          requests:
+            memory: "64Gi"
+            cpu: "8"
+            nvidia.com/gpu: "2"
+          limits:
+            memory: "64Gi"
+            nvidia.com/gpu: "2"
+        env:
+        - name: VLLM_WORKER_MULTIPROC_METHOD
+          value: "spawn"
+        - name: HUGGING_FACE_HUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: huggingface-secret
+              key: token
+        volumeMounts:
+        - name: model-cache
+          mountPath: /root/.cache/huggingface
+        - name: shm
+          mountPath: /dev/shm
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 600
+          periodSeconds: 60
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 120
+          periodSeconds: 20
+      volumes:
+      - name: model-cache
+        persistentVolumeClaim:
+          claimName: vllm-model-cache
+      - name: shm
+        emptyDir:
+          medium: Memory
+          sizeLimit: 16Gi
+      nodeSelector:
+        node.kubernetes.io/instance-type: gpu-l4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mistral-large-service
+  namespace: climate-ai
+spec:
+  selector:
+    app: mistral-large
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  type: ClusterIP
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mistral-large-hpa
+  namespace: climate-ai
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mistral-large-vllm
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+  - type: Resource
+    resource:
+      name: nvidia.com/gpu
+      target:
+        type: Utilization
+        averageUtilization: 85
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+    scaleUp:
+      stabilizationWindowSeconds: 60

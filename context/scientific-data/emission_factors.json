@@ -1,0 +1,258 @@
+{
+  "source": "IPCC AR6 & Base Carbone ADEME",
+  "version": "2024.1",
+  "license": "CC-BY-4.0",
+  "last_updated": "2024-01-15",
+  
+  "transport": {
+    "unit": "g_co2_per_km",
+    "vehicles": {
+      "car_petrol": {
+        "average": 180,
+        "range": [150, 220],
+        "source": "ADEME Base Carbone"
+      },
+      "car_diesel": {
+        "average": 165,
+        "range": [140, 200],
+        "source": "ADEME Base Carbone"
+      },
+      "car_electric": {
+        "average": 50,
+        "range": [20, 80],
+        "note": "Depends on electricity mix",
+        "source": "ADEME Base Carbone"
+      },
+      "motorcycle": {
+        "average": 90,
+        "range": [70, 120],
+        "source": "ADEME Base Carbone"
+      },
+      "bus_diesel": {
+        "per_km": 1300,
+        "per_passenger_km": 68,
+        "source": "ADEME Base Carbone"
+      },
+      "train_regional": {
+        "per_passenger_km": 14,
+        "source": "SNCF"
+      },
+      "train_tgv": {
+        "per_passenger_km": 3.4,
+        "source": "SNCF"
+      },
+      "plane_short_haul": {
+        "per_passenger_km": 258,
+        "range": [200, 300],
+        "source": "ICAO"
+      },
+      "plane_long_haul": {
+        "per_passenger_km": 195,
+        "range": [150, 250],
+        "source": "ICAO"
+      },
+      "bicycle": {
+        "per_km": 0,
+        "note": "Zero direct emissions"
+      },
+      "walking": {
+        "per_km": 0,
+        "note": "Zero direct emissions"
+      }
+    }
+  },
+  
+  "energy": {
+    "electricity_production": {
+      "unit": "g_co2_per_kwh",
+      "sources": {
+        "coal": {
+          "average": 1000,
+          "range": [900, 1100],
+          "source": "IPCC"
+        },
+        "natural_gas": {
+          "average": 490,
+          "range": [400, 550],
+          "source": "IPCC"
+        },
+        "oil": {
+          "average": 840,
+          "range": [700, 900],
+          "source": "IPCC"
+        },
+        "nuclear": {
+          "average": 12,
+          "range": [6, 24],
+          "note": "Lifecycle emissions",
+          "source": "IPCC"
+        },
+        "wind_onshore": {
+          "average": 11,
+          "range": [7, 15],
+          "note": "Lifecycle emissions",
+          "source": "IPCC"
+        },
+        "wind_offshore": {
+          "average": 12,
+          "range": [8, 16],
+          "note": "Lifecycle emissions",
+          "source": "IPCC"
+        },
+        "solar_pv": {
+          "average": 45,
+          "range": [25, 65],
+          "note": "Lifecycle emissions, depends on location",
+          "source": "IPCC"
+        },
+        "hydro": {
+          "average": 24,
+          "range": [4, 100],
+          "note": "Highly variable",
+          "source": "IPCC"
+        },
+        "biomass": {
+          "average": 230,
+          "range": [130, 420],
+          "note": "Depends on source and lifecycle",
+          "source": "IPCC"
+        }
+      },
+      "grid_mix": {
+        "switzerland": 29,
+        "france": 79,
+        "germany": 420,
+        "europe_average": 295,
+        "source": "EEA 2023"
+      }
+    },
+    "heating": {
+      "unit": "g_co2_per_kwh_thermal",
+      "sources": {
+        "natural_gas_boiler": 227,
+        "oil_boiler": 324,
+        "heat_pump": {
+          "value": "varies",
+          "note": "3x electricity mix (COP ~3)",
+          "switzerland": 10,
+          "europe": 98
+        },
+        "wood_pellets": 33,
+        "district_heating": {
+          "value": "varies",
+          "note": "Depends on source"
+        }
+      }
+    }
+  },
+  
+  "buildings": {
+    "materials": {
+      "unit": "kg_co2_per_kg",
+      "concrete": {
+        "average": 0.15,
+        "range": [0.10, 0.20],
+        "source": "ICE Database"
+      },
+      "steel": {
+        "average": 1.85,
+        "range": [1.5, 2.2],
+        "source": "ICE Database"
+      },
+      "aluminum": {
+        "average": 8.1,
+        "range": [7.0, 10.0],
+        "source": "ICE Database"
+      },
+      "timber": {
+        "average": -0.9,
+        "note": "Negative: carbon storage",
+        "range": [-1.5, -0.3],
+        "source": "ICE Database"
+      },
+      "glass": {
+        "average": 0.85,
+        "range": [0.7, 1.0],
+        "source": "ICE Database"
+      },
+      "insulation_mineral_wool": {
+        "average": 1.2,
+        "source": "ICE Database"
+      },
+      "insulation_cellulose": {
+        "average": 0.4,
+        "source": "ICE Database"
+      }
+    }
+  },
+  
+  "agriculture": {
+    "emissions": {
+      "unit": "varies",
+      "beef": {
+        "value": 60.0,
+        "unit": "kg_co2_per_kg_meat",
+        "source": "Poore & Nemecek 2018"
+      },
+      "lamb": {
+        "value": 24.0,
+        "unit": "kg_co2_per_kg_meat",
+        "source": "Poore & Nemecek 2018"
+      },
+      "pork": {
+        "value": 7.0,
+        "unit": "kg_co2_per_kg_meat",
+        "source": "Poore & Nemecek 2018"
+      },
+      "poultry": {
+        "value": 6.0,
+        "unit": "kg_co2_per_kg_meat",
+        "source": "Poore & Nemecek 2018"
+      },
+      "cheese": {
+        "value": 21.0,
+        "unit": "kg_co2_per_kg",
+        "source": "Poore & Nemecek 2018"
+      },
+      "milk": {
+        "value": 2.8,
+        "unit": "kg_co2_per_liter",
+        "source": "Poore & Nemecek 2018"
+      },
+      "vegetables": {
+        "value": 0.4,
+        "unit": "kg_co2_per_kg",
+        "source": "Poore & Nemecek 2018"
+      },
+      "cereals": {
+        "value": 1.4,
+        "unit": "kg_co2_per_kg",
+        "source": "Poore & Nemecek 2018"
+      }
+    }
+  },
+  
+  "reference_values": {
+    "global_co2_budget_1_5c": {
+      "value": 500,
+      "unit": "gigatonnes_co2",
+      "source": "IPCC AR6",
+      "note": "Remaining budget for 50% chance of limiting to 1.5°C"
+    },
+    "global_emissions_2023": {
+      "value": 37.4,
+      "unit": "gigatonnes_co2_per_year",
+      "source": "Global Carbon Project 2024"
+    },
+    "switzerland_target_2030": {
+      "value": -50,
+      "unit": "percent_vs_1990",
+      "source": "Swiss Climate Law"
+    },
+    "eu_target_2030": {
+      "value": -55,
+      "unit": "percent_vs_1990",
+      "source": "EU Green Deal"
+    }
+  }
+}

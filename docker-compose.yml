@@ -1,0 +1,132 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: climate-ai-postgres
+    environment:
+      POSTGRES_DB: climate_ai_db
+      POSTGRES_USER: climate_ai
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U climate_ai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Orchestrator Service (simulated without GPU)
+  orchestrator:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: climate-ai-orchestrator
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://climate_ai:changeme@postgres:5432/climate_ai_db
+      - MOCK_LLM_CALLS=true  # Mock LLM calls for local dev
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./services:/app/services
+      - ./context:/app/context
+      - ./config.yaml:/app/config.yaml
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: python services/orchestrator/main.py
+
+  # Validation Service
+  validation:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: climate-ai-validation
+    ports:
+      - "8001:8000"
+    environment:
+      - DATABASE_URL=postgresql://climate_ai:changeme@postgres:5432/climate_ai_db
+      - MOCK_LLM_CALLS=true
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./services:/app/services
+      - ./context:/app/context
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: python services/validation/validator.py
+
+  # MinIO (S3-compatible storage for local dev)
+  minio:
+    image: minio/minio:latest
+    container_name: climate-ai-minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # Create MinIO bucket
+  minio-setup:
+    image: minio/mc:latest
+    container_name: climate-ai-minio-setup
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set myminio http://minio:9000 minioadmin minioadmin;
+      mc mb myminio/climate-ai-data;
+      mc anonymous set download myminio/climate-ai-data;
+      exit 0;
+      "
+
+  # Prometheus (monitoring)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: climate-ai-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+
+  # Grafana (visualization)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: climate-ai-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+    depends_on:
+      - prometheus
+
+volumes:
+  postgres_data:
+  minio_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  default:
+    name: climate-ai-network

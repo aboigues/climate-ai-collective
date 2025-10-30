@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: climate-ai
+  labels:
+    name: climate-ai
+    project: climate-ai-collective
+    managed-by: kubectl

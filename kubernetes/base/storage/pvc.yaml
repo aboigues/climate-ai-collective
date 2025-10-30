@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vllm-model-cache
+  namespace: climate-ai
+  labels:
+    app: vllm
+    component: storage
+spec:
+  accessModes:
+  - ReadWriteMany  # Tous les pods peuvent lire
+  resources:
+    requests:
+      storage: 500Gi
+  storageClassName: infomaniak-block-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: simulation-data
+  namespace: climate-ai
+  labels:
+    app: simulation
+    component: storage
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: infomaniak-block-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-data
+  namespace: climate-ai
+  labels:
+    app: postgres
+    component: storage
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: infomaniak-block-storage

@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orchestrator-vllm
+  namespace: climate-ai
+  labels:
+    app: orchestrator
+    component: llm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orchestrator
+  template:
+    metadata:
+      labels:
+        app: orchestrator
+        component: llm
+    spec:
+      containers:
+      - name: vllm-orchestrator
+        image: vllm/vllm-openai:v0.3.0
+        command:
+        - python3
+        - -m
+        - vllm.entrypoints.openai.api_server
+        - --model
+        - mistralai/Mistral-Small-Instruct-2409
+        - --quantization
+        - awq
+        - --dtype
+        - half
+        - --max-model-len
+        - "32768"
+        - --gpu-memory-utilization
+        - "0.85"
+        - --port
+        - "8000"
+        - --trust-remote-code
+        ports:
+        - containerPort: 8000
+          name: http
+        resources:
+          requests:
+            memory: "16Gi"
+            cpu: "4"
+            nvidia.com/gpu: "1"
+          limits:
+            memory: "16Gi"
+            nvidia.com/gpu: "1"
+        env:
+        - name: VLLM_WORKER_MULTIPROC_METHOD
+          value: "spawn"
+        - name: HUGGING_FACE_HUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: huggingface-secret
+              key: token
+        volumeMounts:
+        - name: model-cache
+          mountPath: /root/.cache/huggingface
+        - name: shm
+          mountPath: /dev/shm
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 300
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 10
+      volumes:
+      - name: model-cache
+        persistentVolumeClaim:
+          claimName: vllm-model-cache
+      - name: shm
+        emptyDir:
+          medium: Memory
+          sizeLimit: 8Gi
+      nodeSelector:
+        node.kubernetes.io/instance-type: gpu-l4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orchestrator-service
+  namespace: climate-ai
+spec:
+  selector:
+    app: orchestrator
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  type: ClusterIP

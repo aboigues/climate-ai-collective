@@ -1,0 +1,194 @@
+name: AI PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - 'domains/**'
+
+jobs:
+  ai-review:
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'ai-generated')
+    
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Extract proposal from PR
+        id: extract
+        run: |
+          # Trouve le fichier proposal.json dans les changements
+          PROPOSAL_FILE=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }} | grep 'proposal.json' | head -1)
+          
+          if [ -z "$PROPOSAL_FILE" ]; then
+            echo "❌ No proposal.json found in PR"
+            exit 1
+          fi
+          
+          echo "proposal_file=$PROPOSAL_FILE" >> $GITHUB_OUTPUT
+          
+          # Extrait le domaine et l'ID
+          DOMAIN=$(echo "$PROPOSAL_FILE" | cut -d'/' -f2)
+          PROPOSAL_ID=$(echo "$PROPOSAL_FILE" | cut -d'/' -f4)
+          
+          echo "domain=$DOMAIN" >> $GITHUB_OUTPUT
+          echo "proposal_id=$PROPOSAL_ID" >> $GITHUB_OUTPUT
+      
+      - name: Review by DeepSeek AI
+        id: deepseek_review
+        env:
+          DEEPSEEK_URL: ${{ secrets.DEEPSEEK_SERVICE_URL }}
+        run: |
+          python scripts/ai_review.py \
+            --proposal ${{ steps.extract.outputs.proposal_file }} \
+            --reviewer deepseek \
+            --output review_deepseek.json
+      
+      - name: Check for interdependencies
+        id: interdependencies
+        run: |
+          python scripts/check_interdependencies.py \
+            --proposal ${{ steps.extract.outputs.proposal_file }} \
+            --domain ${{ steps.extract.outputs.domain }} \
+            --output interdependencies.json
+      
+      - name: Evaluate technical feasibility
+        id: feasibility
+        run: |
+          python scripts/evaluate_feasibility.py \
+            --proposal ${{ steps.extract.outputs.proposal_file }} \
+            --output feasibility.json
+      
+      - name: Compile review results
+        id: compile
+        run: |
+          python scripts/compile_review.py \
+            --deepseek review_deepseek.json \
+            --interdep interdependencies.json \
+            --feasibility feasibility.json \
+            --output final_review.json
+      
+      - name: Post review comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const review = JSON.parse(fs.readFileSync('final_review.json', 'utf8'));
+            
+            const score = review.overall_score;
+            const emoji = score >= 8 ? '🌟' : score >= 6 ? '👍' : '⚠️';
+            
+            const comment = `## ${emoji} Revue Automatique par IA
+            
+            ### Score Global: ${score}/10
+            
+            #### 🔬 Validation Scientifique (DeepSeek)
+            - **Cohérence physique:** ${review.deepseek.physical_coherence.valid ? '✅' : '❌'}
+            - **Cohérence économique:** ${review.deepseek.economic_coherence.valid ? '✅' : '❌'}
+            - **Cohérence temporelle:** ${review.deepseek.temporal_coherence.valid ? '✅' : '❌'}
+            - **Qualité références:** ${review.deepseek.references_quality.score}/10
+            
+            ${review.deepseek.issues.length > 0 ? `
+            **⚠️ Points à améliorer:**
+            ${review.deepseek.issues.map(i => `- ${i}`).join('\n')}
+            ` : ''}
+            
+            #### 🔗 Interdépendances
+            ${review.interdependencies.synergies.length > 0 ? `
+            **✨ Synergies détectées:**
+            ${review.interdependencies.synergies.map(s => `- ${s.domain} #${s.proposal_id}: ${s.description}`).join('\n')}
+            ` : '*Aucune synergie détectée*'}
+            
+            ${review.interdependencies.conflicts.length > 0 ? `
+            **⚠️ Conflits potentiels:**
+            ${review.interdependencies.conflicts.map(c => `- ${c.domain} #${c.proposal_id}: ${c.description}`).join('\n')}
+            ` : ''}
+            
+            #### 🛠️ Faisabilité Technique
+            - **Score:** ${review.feasibility.score}/10
+            - **Risques:** ${review.feasibility.risk_level}
+            - **Prérequis manquants:** ${review.feasibility.missing_prerequisites.length}
+            
+            #### 📊 Recommandations
+            ${review.recommendations.map(r => `- ${r}`).join('\n')}
+            
+            #### ✅ Prochaines Étapes
+            ${score >= 7 ? `
+            - [ ] Lancer simulation approfondie
+            - [ ] Ouvrir au vote citoyen
+            - [ ] Solliciter experts du domaine
+            ` : `
+            - [ ] Adresser les points d'amélioration
+            - [ ] Re-soumission après corrections
+            `}
+            
+            ---
+            
+            🤖 *Revue générée automatiquement par DeepSeek R1 - ${new Date().toISOString()}*
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      - name: Update PR labels
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const review = JSON.parse(fs.readFileSync('final_review.json', 'utf8'));
+            
+            const labels = ['ai-reviewed'];
+            
+            if (review.overall_score >= 8) {
+              labels.push('excellent');
+              labels.push('ready-for-deep-simulation');
+            } else if (review.overall_score >= 6) {
+              labels.push('good');
+              labels.push('needs-improvement');
+            } else {
+              labels.push('needs-major-revision');
+            }
+            
+            if (review.interdependencies.synergies.length > 0) {
+              labels.push('has-synergies');
+            }
+            
+            if (review.interdependencies.conflicts.length > 0) {
+              labels.push('has-conflicts');
+            }
+            
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: labels
+            });
+      
+      - name: Trigger deep simulation if excellent
+        if: steps.compile.outputs.score >= 8
+        run: |
+          echo "🚀 Triggering deep simulation for high-quality proposal"
+          # Déclenche le workflow de simulation approfondie
+          gh workflow run deep-simulation.yml \
+            -f proposal_id=${{ steps.extract.outputs.proposal_id }} \
+            -f domain=${{ steps.extract.outputs.domain }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
