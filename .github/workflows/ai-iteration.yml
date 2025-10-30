@@ -21,7 +21,11 @@ on:
 jobs:
   generate-proposal:
     runs-on: ubuntu-latest
-    
+
+    permissions:
+      contents: write
+      pull-requests: write
+
     env:
       ORCHESTRATOR_URL: ${{ secrets.ORCHESTRATOR_URL }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
