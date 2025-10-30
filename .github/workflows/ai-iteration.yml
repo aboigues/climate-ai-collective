@@ -98,10 +98,8 @@ jobs:
             --type quick \
             --output simulation.json
       
-      - name: Create proposal branch and PR
+      - name: Create proposal branch and commit
         id: create-branch
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           DOMAIN=${{ steps.domain.outputs.domain }}
           TIMESTAMP=$(date +%Y%m%d-%H%M%S)
@@ -130,59 +128,62 @@ jobs:
 
           git push origin "$BRANCH"
 
-          # Créer la PR avec gh
-          VALIDATION_SCORE=$(jq -r '.score' validation.json)
-          CO2_IMPACT=$(jq -r '.co2_impact.scenarios.realistic.total_10y' simulation.json)
-          COST=$(jq -r '.economic_impact.investment_chf' simulation.json)
-          ROI=$(jq -r '.economic_impact.roi_20y_pct' simulation.json)
-          PAYBACK=$(jq -r '.economic_impact.payback_years' simulation.json)
-          CURRENT_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-
-          PR_BODY=$(printf "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s" \
-            "## 🌍 Nouvelle Proposition Climatique" \
-            "" \
-            "**Domaine:** ${DOMAIN}" \
-            "**ID Proposition:** ${PROPOSAL_ID}" \
-            "**Générée par:** Climate AI Orchestrator" \
-            "**Date:** ${CURRENT_DATE}" \
-            "" \
-            "### 📊 Résultats de Validation" \
-            "" \
-            "- **Score:** ${VALIDATION_SCORE}/10" \
-            "- **Statut:** ✅ Validée" \
-            "" \
-            "### 🎯 Impact Estimé" \
-            "" \
-            "- **Réduction CO2 (10 ans):** ${CO2_IMPACT} tonnes" \
-            "- **Coût d'implémentation:** ${COST} CHF" \
-            "- **ROI (20 ans):** ${ROI}%" \
-            "- **Payback:** ${PAYBACK} ans" \
-            "" \
-            "### 📋 Prochaines Étapes" \
-            "" \
-            "1. ✅ Validation automatique complétée" \
-            "2. ⏳ En attente de review par IA experte" \
-            "3. ⏳ Simulation approfondie à lancer" \
-            "4. ⏳ Vote citoyen à ouvrir" \
-            "" \
-            "### 🔗 Fichiers Générés" \
-            "" \
-            "- [Proposition complète](domains/${DOMAIN}/proposals/${PROPOSAL_ID}/proposal.json)" \
-            "- [Rapport de validation](domains/${DOMAIN}/proposals/${PROPOSAL_ID}/validation.json)" \
-            "- [Résultats simulation](domains/${DOMAIN}/proposals/${PROPOSAL_ID}/simulation_quick.json)" \
-            "" \
-            "---" \
-            "" \
-            "🤖 *Cette PR a été créée automatiquement par le Climate AI Collective*")
-
-          gh pr create \
-            --title "🤖 [${DOMAIN}] New AI Proposal - ${PROPOSAL_ID}" \
-            --body "$PR_BODY" \
-            --base main \
-            --head "$BRANCH"
-
           echo "branch=$BRANCH" >> $GITHUB_OUTPUT
           echo "proposal_id=$PROPOSAL_ID" >> $GITHUB_OUTPUT
+          echo "domain=$DOMAIN" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = '${{ steps.create-branch.outputs.branch }}';
+            const domain = '${{ steps.create-branch.outputs.domain }}';
+            const proposalId = '${{ steps.create-branch.outputs.proposal_id }}';
+
+            const body = `## 🌍 Nouvelle Proposition Climatique
+
+            **Domaine:** ${domain}
+            **ID Proposition:** ${proposalId}
+            **Générée par:** Climate AI Orchestrator
+            **Date:** ${new Date().toISOString()}
+
+            ### 📊 Résultats de Validation
+
+            Les résultats détaillés sont disponibles dans les fichiers joints.
+
+            ### 📋 Prochaines Étapes
+
+            1. ✅ Validation automatique complétée
+            2. ⏳ En attente de review par IA experte
+            3. ⏳ Simulation approfondie à lancer
+            4. ⏳ Vote citoyen à ouvrir
+
+            ### 🔗 Fichiers Générés
+
+            - [Proposition complète](domains/${domain}/proposals/${proposalId}/proposal.json)
+            - [Rapport de validation](domains/${domain}/proposals/${proposalId}/validation.json)
+            - [Résultats simulation](domains/${domain}/proposals/${proposalId}/simulation_quick.json)
+
+            ---
+
+            🤖 *Cette PR a été créée automatiquement par le Climate AI Collective*`;
+
+            try {
+              const { data: pullRequest } = await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `🤖 [${domain}] Nouvelle proposition IA - ${proposalId}`,
+                head: branch,
+                base: 'main',
+                body: body
+              });
+
+              console.log(`✅ Pull Request créée: ${pullRequest.html_url}`);
+              core.setOutput('pr_number', pullRequest.number);
+              core.setOutput('pr_url', pullRequest.html_url);
+            } catch (error) {
+              core.setFailed(`Erreur lors de la création de la PR: ${error.message}`);
+            }
       
       - name: Notify on failure
         if: failure()
