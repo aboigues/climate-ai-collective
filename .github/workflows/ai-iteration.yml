@@ -95,6 +95,7 @@ jobs:
             --output simulation.json
       
       - name: Create proposal branch
+        id: create-branch
         run: |
           DOMAIN=${{ steps.domain.outputs.domain }}
           TIMESTAMP=$(date +%Y%m%d-%H%M%S)
