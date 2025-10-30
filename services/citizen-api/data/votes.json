@@ -1,0 +1,33 @@
+{
+  "votes": [
+    {
+      "vote_id": "4331f06f-35ee-4c13-9e62-993f531daf15",
+      "proposal_id": "transport-33b6fba2",
+      "impact_score": 9,
+      "feasibility_score": 7,
+      "desirability_score": 8,
+      "comment": "Excellente proposition pour réduire les émissions de CO2",
+      "citizen_id": "anonymous",
+      "timestamp": "2025-10-30T16:18:45.719872"
+    },
+    {
+      "vote_id": "c21998ae-5ff1-4938-8d65-72869089d5d3",
+      "proposal_id": "transport-33b6fba2",
+      "impact_score": 10,
+      "feasibility_score": 6,
+      "desirability_score": 9,
+      "comment": "Très bon pour la santé publique",
+      "citizen_id": "anonymous",
+      "timestamp": "2025-10-30T16:19:09.257072"
+    }
+  ],
+  "summaries": {
+    "transport-33b6fba2": {
+      "total_votes": 2,
+      "avg_impact_score": 9.5,
+      "avg_feasibility_score": 6.5,
+      "avg_desirability_score": 8.5,
+      "avg_overall_score": 8.17
+    }
+  }
+}

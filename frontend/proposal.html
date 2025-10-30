@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail de la proposition - Climate AI Collective</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Climate AI Collective</h1>
+            <p class="tagline">Détail de la proposition</p>
+            <a href="index.html" class="back-link">&larr; Retour à la liste</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="proposal-detail">
+            <!-- Le contenu sera inséré par JavaScript -->
+            <div class="loading">Chargement de la proposition...</div>
+        </div>
+
+        <!-- Formulaire de vote -->
+        <section id="vote-section" class="vote-section" style="display: none;">
+            <h2>Votez sur cette proposition</h2>
+            <p class="vote-description">
+                Évaluez cette proposition sur 3 axes (1 = très faible, 10 = excellent) :
+            </p>
+
+            <form id="vote-form">
+                <div class="vote-group">
+                    <label for="impact-score">
+                        <strong>Impact climatique</strong>
+                        <span class="help-text">Potentiel de réduction des émissions de CO2</span>
+                    </label>
+                    <div class="rating-input">
+                        <input type="range" id="impact-score" name="impact_score" min="1" max="10" value="5" required>
+                        <span class="rating-value" id="impact-value">5</span>/10
+                    </div>
+                </div>
+
+                <div class="vote-group">
+                    <label for="feasibility-score">
+                        <strong>Faisabilité</strong>
+                        <span class="help-text">Facilité de mise en œuvre (technique, budget, délai)</span>
+                    </label>
+                    <div class="rating-input">
+                        <input type="range" id="feasibility-score" name="feasibility_score" min="1" max="10" value="5" required>
+                        <span class="rating-value" id="feasibility-value">5</span>/10
+                    </div>
+                </div>
+
+                <div class="vote-group">
+                    <label for="desirability-score">
+                        <strong>Désirabilité sociale</strong>
+                        <span class="help-text">Acceptabilité et bénéfices pour la population</span>
+                    </label>
+                    <div class="rating-input">
+                        <input type="range" id="desirability-score" name="desirability_score" min="1" max="10" value="5" required>
+                        <span class="rating-value" id="desirability-value">5</span>/10
+                    </div>
+                </div>
+
+                <div class="vote-group">
+                    <label for="comment">
+                        <strong>Commentaire (optionnel)</strong>
+                        <span class="help-text">Partagez votre avis ou suggestions</span>
+                    </label>
+                    <textarea id="comment" name="comment" rows="4" maxlength="1000"
+                              placeholder="Exprimez votre point de vue sur cette proposition..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary btn-large">Envoyer mon vote</button>
+            </form>
+
+            <div id="vote-success" class="success-message" style="display: none;">
+                <h3>Merci pour votre vote !</h3>
+                <p>Votre contribution a été enregistrée avec succès.</p>
+            </div>
+
+            <div id="vote-error" class="error-message" style="display: none;">
+                <h3>Erreur</h3>
+                <p id="error-text"></p>
+            </div>
+        </section>
+
+        <!-- Résumé des votes existants -->
+        <section id="votes-summary" class="votes-summary" style="display: none;">
+            <h2>Résultats des votes</h2>
+            <div class="votes-stats">
+                <div class="vote-stat">
+                    <h3 id="total-votes-count">0</h3>
+                    <p>Votes reçus</p>
+                </div>
+                <div class="vote-stat">
+                    <h3 id="avg-impact">-</h3>
+                    <p>Impact moyen</p>
+                </div>
+                <div class="vote-stat">
+                    <h3 id="avg-feasibility">-</h3>
+                    <p>Faisabilité moyenne</p>
+                </div>
+                <div class="vote-stat">
+                    <h3 id="avg-desirability">-</h3>
+                    <p>Désirabilité moyenne</p>
+                </div>
+                <div class="vote-stat highlight">
+                    <h3 id="avg-overall">-</h3>
+                    <p>Note globale</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Climate AI Collective - Projet open-source pour l'action climatique</p>
+        </div>
+    </footer>
+
+    <script src="proposal.js"></script>
+</body>
+</html>
