@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate AI Collective - Propositions Citoyennes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Climate AI Collective</h1>
+            <p class="tagline">Propositions climatiques générées par IA, validées par les citoyens</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Filtres -->
+        <section class="filters">
+            <h2>Filtrer les propositions</h2>
+            <div class="filter-group">
+                <label for="domain-filter">Domaine :</label>
+                <select id="domain-filter">
+                    <option value="">Tous les domaines</option>
+                </select>
+
+                <label for="status-filter">Statut :</label>
+                <select id="status-filter">
+                    <option value="">Tous les statuts</option>
+                    <option value="generated">Générée</option>
+                    <option value="validated">Validée</option>
+                    <option value="simulation_complete">Simulation complète</option>
+                    <option value="review">En révision</option>
+                    <option value="voting">En vote</option>
+                </select>
+
+                <button id="filter-btn" class="btn-primary">Filtrer</button>
+                <button id="reset-btn" class="btn-secondary">Réinitialiser</button>
+            </div>
+        </section>
+
+        <!-- Statistiques -->
+        <section class="stats">
+            <div class="stat-card">
+                <h3 id="total-proposals">0</h3>
+                <p>Propositions</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="total-votes">0</h3>
+                <p>Votes</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="total-co2">0</h3>
+                <p>Tonnes CO2 réductibles (10 ans)</p>
+            </div>
+        </section>
+
+        <!-- Liste des propositions -->
+        <section class="proposals">
+            <h2>Propositions disponibles</h2>
+            <div id="proposals-list" class="proposals-grid">
+                <!-- Les propositions seront insérées ici par JavaScript -->
+                <div class="loading">Chargement des propositions...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Climate AI Collective - Projet open-source pour l'action climatique</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

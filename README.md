@@ -97,7 +97,13 @@ climate-ai-collective/
 │   ├── orchestrator/      # LLM orchestrator
 │   ├── validation/        # Validation engine
 │   ├── simulation/        # Simulation models
+│   ├── citizen-api/       # API REST pour interface citoyenne
 │   └── github-integration/# GitHub sync
+├── frontend/              # Interface web citoyenne
+│   ├── index.html         # Liste des propositions
+│   ├── proposal.html      # Détail & vote
+│   ├── styles.css         # Styles
+│   └── *.js               # Logique JavaScript
 ├── context/               # Données scientifiques & prompts
 ├── domains/               # Propositions par domaine
 │   ├── transport/
@@ -105,7 +111,9 @@ climate-ai-collective/
 │   ├── batiment/
 │   └── agriculture/
 ├── docs/                  # Documentation détaillée
-└── scripts/               # Scripts de déploiement
+├── scripts/               # Scripts de déploiement
+├── CITIZEN_INTERFACE.md   # Doc interface citoyenne
+└── start-citizen-interface.sh  # Lancement rapide
 ```
 
 ## 🌱 Domaines Couverts
@@ -154,12 +162,34 @@ climate-ai-collective/
 
 ## 🗳️ Interface Citoyenne
 
+Une interface web simple et fonctionnelle est disponible pour permettre aux citoyens de consulter et voter sur les propositions.
+
+### Fonctionnalités
+
 Les citoyens peuvent :
-- Consulter toutes les propositions et simulations
-- Voter sur les propositions (impact, faisabilité, désirabilité)
-- Commenter et suggérer des améliorations
-- Suivre l'évolution des propositions
-- Proposer de nouveaux domaines
+- **Consulter** toutes les propositions avec leurs simulations d'impact
+- **Voter** sur les propositions selon 3 axes (échelle 1-10) :
+  - Impact climatique (potentiel de réduction CO2)
+  - Faisabilité (technique, budget, délai)
+  - Désirabilité sociale (acceptabilité, bénéfices)
+- **Commenter** et partager leur avis sur les propositions
+- **Filtrer** les propositions par domaine (Transport, Énergie, etc.)
+- **Visualiser** les résultats des votes agrégés en temps réel
+
+### Démarrage rapide
+
+```bash
+# Lancer l'API et le frontend
+./start-citizen-interface.sh
+
+# Accéder au frontend
+# http://localhost:8080
+
+# Accéder à l'API
+# http://localhost:8002/docs
+```
+
+**Documentation complète** : [CITIZEN_INTERFACE.md](./CITIZEN_INTERFACE.md)
 
 **Dashboard public** : https://dashboard.climate-ai-collective.org (à venir)
 
