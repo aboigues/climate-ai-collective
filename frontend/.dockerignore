@@ -1,0 +1,33 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# IDE et éditeurs
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+
+# Fichiers temporaires
+*.tmp
+*.bak
+.cache
+
+# Node modules (si jamais utilisé)
+node_modules
+npm-debug.log
+
+# Fichiers de test
+test
+tests
+*.test.js
+*.spec.js

@@ -121,6 +121,35 @@ services:
     depends_on:
       - prometheus
 
+  # Citizen API (API pour l'interface citoyenne)
+  citizen-api:
+    build:
+      context: ./services/citizen-api
+      dockerfile: Dockerfile
+    container_name: climate-ai-citizen-api
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./services/citizen-api/data:/app/data
+      - ./domains:/app/domains:ro
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Frontend (interface citoyenne)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: climate-ai-frontend
+    ports:
+      - "8080:80"
+    environment:
+      - API_BASE_URL=http://citizen-api:8002
+    depends_on:
+      - citizen-api
+    restart: unless-stopped
+
 volumes:
   postgres_data:
   minio_data:
