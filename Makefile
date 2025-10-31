@@ -28,6 +28,11 @@ help:
 	@echo "  make type-check     - Vérifie les types avec mypy"
 	@echo "  make quality        - Lance tous les checks qualité"
 	@echo ""
+	@echo "Security:"
+	@echo "  make security-scan  - Scanne les vulnérabilités avec Trivy"
+	@echo "  make security-fs    - Scanne uniquement le filesystem"
+	@echo "  make security-docker - Scanne toutes les images Docker"
+	@echo ""
 	@echo "Kubernetes:"
 	@echo "  make k8s-setup      - Configure Kubernetes sur Infomaniak"
 	@echo "  make k8s-deploy     - Déploie sur Kubernetes"
@@ -106,6 +111,21 @@ type-check:
 
 quality: lint type-check
 	@echo "✅ Tous les checks qualité sont passés!"
+
+# Security
+security-scan:
+	@echo "🔒 Scan de sécurité avec Trivy..."
+	./scripts/security-scan.sh all
+
+security-fs:
+	@echo "🔒 Scan du filesystem..."
+	./scripts/security-scan.sh filesystem
+
+security-docker:
+	@echo "🔒 Scan des images Docker..."
+	./scripts/security-scan.sh docker-main
+	./scripts/security-scan.sh docker-frontend
+	./scripts/security-scan.sh docker-citizen-api
 
 # Kubernetes
 k8s-setup:

@@ -1,0 +1,16 @@
+# Trivy Ignore File
+# Ce fichier permet d'ignorer certaines vulnérabilités spécifiques
+# Format: CVE-YYYY-XXXXX ou GHSA-xxxx-xxxx-xxxx
+#
+# Exemple d'utilisation:
+# CVE-2023-12345  # Ignorer cette CVE car elle ne s'applique pas à notre cas d'usage
+# GHSA-xxxx-xxxx-xxxx  # Faux positif confirmé par l'équipe sécurité
+#
+# IMPORTANT: Chaque ligne ignorée doit avoir un commentaire expliquant pourquoi
+# et doit être revue régulièrement (idéalement chaque trimestre)
+#
+# Dernière révision: 2025-10-31
+
+# Ajoutez ici les CVEs à ignorer avec leurs justifications
+# Exemple:
+# CVE-2024-12345  # Ne s'applique pas car nous n'utilisons pas la fonctionnalité vulnérable
