@@ -1,7 +1,7 @@
 # Frontend Dockerfile pour Climate AI Collective
 # Servit les fichiers statiques HTML/CSS/JS via nginx
 
-FROM nginx:1.27-alpine
+FROM nginx:alpine
 
 # Copier les fichiers statiques dans le répertoire nginx
 COPY index.html proposal.html /usr/share/nginx/html/
