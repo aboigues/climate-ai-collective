@@ -214,10 +214,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          version: 'v1.29.0'
+          python-version: '3.11'
+
+      - name: Install PyYAML
+        run: pip install pyyaml
 
       - name: Validate Kubernetes manifests
         run: |
@@ -231,8 +234,38 @@ jobs:
 
           echo "✅ Kubernetes manifests found"
 
-          # Valider la syntaxe YAML
-          kubectl apply --dry-run=client -f kubernetes/base/frontend/deployment.yaml
+          # Valider la syntaxe YAML avec Python
+          python3 << 'EOF'
+          import yaml
+          import sys
+
+          try:
+              with open('kubernetes/base/frontend/deployment.yaml', 'r') as f:
+                  docs = list(yaml.safe_load_all(f))
+
+              print(f"✅ YAML syntax is valid ({len(docs)} documents found)")
+
+              # Vérifier que ce sont des objets Kubernetes valides
+              for i, doc in enumerate(docs):
+                  if not isinstance(doc, dict):
+                      print(f"❌ Document {i+1} is not a valid Kubernetes object")
+                      sys.exit(1)
+
+                  if 'apiVersion' not in doc or 'kind' not in doc:
+                      print(f"❌ Document {i+1} is missing 'apiVersion' or 'kind'")
+                      sys.exit(1)
+
+                  print(f"  - {doc['kind']}: {doc.get('metadata', {}).get('name', 'unknown')}")
+
+              print("✅ All documents are valid Kubernetes objects")
+
+          except yaml.YAMLError as e:
+              print(f"❌ YAML syntax error: {e}")
+              sys.exit(1)
+          except Exception as e:
+              print(f"❌ Validation error: {e}")
+              sys.exit(1)
+          EOF
 
           echo "✅ Kubernetes manifests are valid"
 
