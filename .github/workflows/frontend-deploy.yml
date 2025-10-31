@@ -273,37 +273,70 @@ jobs:
         run: |
           echo "🔍 Checking manifest configuration..."
 
-          # Vérifier que le déploiement a au moins 1 replica
-          replicas=$(grep -A 1 "replicas:" kubernetes/base/frontend/deployment.yaml | tail -1 | awk '{print $2}')
-          if [ "$replicas" -ge 1 ]; then
-            echo "✅ Deployment has $replicas replicas"
-          else
-            echo "❌ Deployment should have at least 1 replica"
-            exit 1
-          fi
+          python3 << 'EOF'
+          import yaml
+          import sys
 
-          # Vérifier que le service expose le port 80
-          if grep -q "port: 80" kubernetes/base/frontend/deployment.yaml; then
-            echo "✅ Service exposes port 80"
-          else
-            echo "❌ Service should expose port 80"
-            exit 1
-          fi
+          try:
+              with open('kubernetes/base/frontend/deployment.yaml', 'r') as f:
+                  docs = list(yaml.safe_load_all(f))
 
-          # Vérifier que les health checks sont configurés
-          if grep -q "livenessProbe:" kubernetes/base/frontend/deployment.yaml; then
-            echo "✅ Liveness probe configured"
-          else
-            echo "❌ Liveness probe not configured"
-            exit 1
-          fi
+              # Trouver le Deployment
+              deployment = None
+              service = None
+              for doc in docs:
+                  if doc.get('kind') == 'Deployment':
+                      deployment = doc
+                  elif doc.get('kind') == 'Service':
+                      service = doc
 
-          if grep -q "readinessProbe:" kubernetes/base/frontend/deployment.yaml; then
-            echo "✅ Readiness probe configured"
-          else
-            echo "❌ Readiness probe not configured"
-            exit 1
-          fi
+              if not deployment:
+                  print("❌ No Deployment found in manifest")
+                  sys.exit(1)
+
+              # Vérifier les replicas
+              replicas = deployment.get('spec', {}).get('replicas', 0)
+              if replicas >= 1:
+                  print(f"✅ Deployment has {replicas} replicas")
+              else:
+                  print(f"❌ Deployment should have at least 1 replica, found {replicas}")
+                  sys.exit(1)
+
+              # Vérifier que le service expose le port 80
+              if service:
+                  ports = service.get('spec', {}).get('ports', [])
+                  has_port_80 = any(p.get('port') == 80 for p in ports)
+                  if has_port_80:
+                      print("✅ Service exposes port 80")
+                  else:
+                      print("❌ Service should expose port 80")
+                      sys.exit(1)
+
+              # Vérifier les health checks
+              containers = deployment.get('spec', {}).get('template', {}).get('spec', {}).get('containers', [])
+              if not containers:
+                  print("❌ No containers found in Deployment")
+                  sys.exit(1)
+
+              container = containers[0]
+              if 'livenessProbe' in container:
+                  print("✅ Liveness probe configured")
+              else:
+                  print("❌ Liveness probe not configured")
+                  sys.exit(1)
+
+              if 'readinessProbe' in container:
+                  print("✅ Readiness probe configured")
+              else:
+                  print("❌ Readiness probe not configured")
+                  sys.exit(1)
+
+              print("✅ All configuration checks passed")
+
+          except Exception as e:
+              print(f"❌ Configuration check error: {e}")
+              sys.exit(1)
+          EOF
 
   summary:
     name: Deployment Test Summary
