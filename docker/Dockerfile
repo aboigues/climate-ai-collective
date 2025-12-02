@@ -3,8 +3,8 @@
 
 FROM python:3.11-slim as builder
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+# Install system dependencies and security updates
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     gcc \
     g++ \
     git \
@@ -23,8 +23,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Final stage
 FROM python:3.11-slim
 
-# Install runtime dependencies
-RUN apt-get update && apt-get install -y \
+# Install runtime dependencies and security updates
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
