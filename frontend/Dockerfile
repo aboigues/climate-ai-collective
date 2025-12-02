@@ -3,6 +3,9 @@
 
 FROM nginx:alpine
 
+# Mettre à jour les packages de sécurité pour corriger les vulnérabilités
+RUN apk upgrade --no-cache
+
 # Copier les fichiers statiques dans le répertoire nginx
 COPY index.html proposal.html /usr/share/nginx/html/
 COPY styles.css app.js proposal.js /usr/share/nginx/html/

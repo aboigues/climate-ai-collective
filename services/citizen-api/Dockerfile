@@ -1,5 +1,8 @@
 FROM python:3.11-slim
 
+# Mettre à jour les packages de sécurité pour corriger les vulnérabilités
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 # Copier les requirements et installer les dépendances
