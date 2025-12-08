@@ -14,6 +14,7 @@ torch==2.6.0
 aiohttp==3.9.4
 httpx==0.26.0
 asyncio==3.4.3
+urllib3>=2.6.0  # Security: CVE-2025-66418, CVE-2025-66471
 
 # Database
 asyncpg==0.29.0
@@ -21,8 +22,8 @@ sqlalchemy==2.0.25
 alembic==1.13.1
 
 # S3 / Object Storage
-boto3==1.34.34
-aioboto3==12.3.0
+boto3>=1.35.69  # Support urllib3 2.x
+aioboto3>=12.4.0  # Support boto3 1.35+
 
 # GitHub Integration
 PyGithub==2.1.1
