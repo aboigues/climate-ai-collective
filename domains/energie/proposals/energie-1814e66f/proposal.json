@@ -1,0 +1,88 @@
+{
+  "id": "energie-1814e66f",
+  "domain": "energie",
+  "title": "Déploiement de panneaux solaires sur bâtiments publics",
+  "description": "Installation de 100 MW de capacité solaire photovoltaïque sur les toitures de bâtiments publics existants.",
+  "status": "generated",
+  "generated_at": "2025-12-01T09:22:41.844424Z",
+  "generated_by": "mock-generator",
+  "version": "1.0",
+  "content": {
+    "summary": "Installation de 100 MW de capacité solaire photovoltaïque sur les toitures de bâtiments publics existants.",
+    "actions": [
+      "Audit énergétique des bâtiments publics",
+      "Sélection des sites les plus adaptés",
+      "Installation des panneaux photovoltaïques",
+      "Connexion au réseau et monitoring"
+    ],
+    "implementation": {
+      "phases": [
+        {
+          "name": "Phase 1: Préparation",
+          "duration_months": 6,
+          "tasks": [
+            "Études préliminaires",
+            "Consultations parties prenantes"
+          ]
+        },
+        {
+          "name": "Phase 2: Déploiement",
+          "duration_months": 36,
+          "tasks": [
+            "Mise en œuvre",
+            "Suivi et ajustements"
+          ]
+        },
+        {
+          "name": "Phase 3: Évaluation",
+          "duration_months": 6,
+          "tasks": [
+            "Mesure des impacts",
+            "Rapport final"
+          ]
+        }
+      ],
+      "total_duration_years": 4
+    },
+    "budget": {
+      "total_chf": 120000000,
+      "breakdown": {
+        "infrastructure": 72000000.0,
+        "personnel": 30000000.0,
+        "communication": 6000000.0,
+        "contingency": 12000000.0
+      }
+    },
+    "impact": {
+      "co2_reduction_tonnes_10y": 45000,
+      "co2_reduction_tonnes_yearly": 4500.0,
+      "additional_benefits": [
+        "Amélioration de la qualité de l'air",
+        "Création d'emplois locaux",
+        "Amélioration de la qualité de vie"
+      ]
+    },
+    "risks": [
+      {
+        "description": "Dépassement budgétaire",
+        "probability": "medium",
+        "mitigation": "Budget de contingence de 10%"
+      },
+      {
+        "description": "Retards administratifs",
+        "probability": "low",
+        "mitigation": "Anticipation des procédures"
+      }
+    ],
+    "stakeholders": [
+      "Collectivités locales",
+      "Citoyens",
+      "Entreprises locales",
+      "Organisations environnementales"
+    ]
+  },
+  "metadata": {
+    "context_version": "1.0",
+    "is_mock": true
+  }
+}
