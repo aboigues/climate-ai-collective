@@ -1,0 +1,88 @@
+{
+  "id": "industrie-c27871ae",
+  "domain": "industrie",
+  "title": "Décarbonation des processus industriels",
+  "description": "Électrification et optimisation énergétique de 50 sites industriels pour réduire les émissions.",
+  "status": "generated",
+  "generated_at": "2025-12-22T09:24:43.977997Z",
+  "generated_by": "mock-generator",
+  "version": "1.0",
+  "content": {
+    "summary": "Électrification et optimisation énergétique de 50 sites industriels pour réduire les émissions.",
+    "actions": [
+      "Audit énergétique complet des sites",
+      "Remplacement des chaudières fossiles par des alternatives électriques",
+      "Récupération de chaleur fatale",
+      "Optimisation des processus de production"
+    ],
+    "implementation": {
+      "phases": [
+        {
+          "name": "Phase 1: Préparation",
+          "duration_months": 6,
+          "tasks": [
+            "Études préliminaires",
+            "Consultations parties prenantes"
+          ]
+        },
+        {
+          "name": "Phase 2: Déploiement",
+          "duration_months": 60,
+          "tasks": [
+            "Mise en œuvre",
+            "Suivi et ajustements"
+          ]
+        },
+        {
+          "name": "Phase 3: Évaluation",
+          "duration_months": 6,
+          "tasks": [
+            "Mesure des impacts",
+            "Rapport final"
+          ]
+        }
+      ],
+      "total_duration_years": 6
+    },
+    "budget": {
+      "total_chf": 200000000,
+      "breakdown": {
+        "infrastructure": 120000000.0,
+        "personnel": 50000000.0,
+        "communication": 10000000.0,
+        "contingency": 20000000.0
+      }
+    },
+    "impact": {
+      "co2_reduction_tonnes_10y": 120000,
+      "co2_reduction_tonnes_yearly": 12000.0,
+      "additional_benefits": [
+        "Amélioration de la qualité de l'air",
+        "Création d'emplois locaux",
+        "Amélioration de la qualité de vie"
+      ]
+    },
+    "risks": [
+      {
+        "description": "Dépassement budgétaire",
+        "probability": "medium",
+        "mitigation": "Budget de contingence de 10%"
+      },
+      {
+        "description": "Retards administratifs",
+        "probability": "low",
+        "mitigation": "Anticipation des procédures"
+      }
+    ],
+    "stakeholders": [
+      "Collectivités locales",
+      "Citoyens",
+      "Entreprises locales",
+      "Organisations environnementales"
+    ]
+  },
+  "metadata": {
+    "context_version": "1.0",
+    "is_mock": true
+  }
+}
