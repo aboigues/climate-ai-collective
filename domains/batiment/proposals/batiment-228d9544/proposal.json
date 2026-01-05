@@ -1,0 +1,88 @@
+{
+  "id": "batiment-228d9544",
+  "domain": "batiment",
+  "title": "Programme de rénovation énergétique des logements anciens",
+  "description": "Rénovation thermique de 1000 logements construits avant 1990 pour atteindre le standard Minergie.",
+  "status": "generated",
+  "generated_at": "2026-01-05T09:28:21.627366Z",
+  "generated_by": "mock-generator",
+  "version": "1.0",
+  "content": {
+    "summary": "Rénovation thermique de 1000 logements construits avant 1990 pour atteindre le standard Minergie.",
+    "actions": [
+      "Identification des bâtiments prioritaires",
+      "Isolation renforcée (toiture, façades, sols)",
+      "Remplacement des fenêtres par du double vitrage performant",
+      "Installation de systèmes de chauffage efficaces (pompes à chaleur)"
+    ],
+    "implementation": {
+      "phases": [
+        {
+          "name": "Phase 1: Préparation",
+          "duration_months": 6,
+          "tasks": [
+            "Études préliminaires",
+            "Consultations parties prenantes"
+          ]
+        },
+        {
+          "name": "Phase 2: Déploiement",
+          "duration_months": 48,
+          "tasks": [
+            "Mise en œuvre",
+            "Suivi et ajustements"
+          ]
+        },
+        {
+          "name": "Phase 3: Évaluation",
+          "duration_months": 6,
+          "tasks": [
+            "Mesure des impacts",
+            "Rapport final"
+          ]
+        }
+      ],
+      "total_duration_years": 5
+    },
+    "budget": {
+      "total_chf": 80000000,
+      "breakdown": {
+        "infrastructure": 48000000.0,
+        "personnel": 20000000.0,
+        "communication": 4000000.0,
+        "contingency": 8000000.0
+      }
+    },
+    "impact": {
+      "co2_reduction_tonnes_10y": 15000,
+      "co2_reduction_tonnes_yearly": 1500.0,
+      "additional_benefits": [
+        "Amélioration de la qualité de l'air",
+        "Création d'emplois locaux",
+        "Amélioration de la qualité de vie"
+      ]
+    },
+    "risks": [
+      {
+        "description": "Dépassement budgétaire",
+        "probability": "medium",
+        "mitigation": "Budget de contingence de 10%"
+      },
+      {
+        "description": "Retards administratifs",
+        "probability": "low",
+        "mitigation": "Anticipation des procédures"
+      }
+    ],
+    "stakeholders": [
+      "Collectivités locales",
+      "Citoyens",
+      "Entreprises locales",
+      "Organisations environnementales"
+    ]
+  },
+  "metadata": {
+    "context_version": "1.0",
+    "is_mock": true
+  }
+}
