@@ -11,7 +11,7 @@ transformers==4.48.0
 torch==2.6.0
 
 # Async & HTTP
-aiohttp==3.9.4
+aiohttp==3.13.3
 httpx==0.26.0
 asyncio==3.4.3
 urllib3>=2.6.0  # Security: CVE-2025-66418, CVE-2025-66471
