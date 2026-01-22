@@ -5,6 +5,9 @@ RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
+# Mettre à jour pip et setuptools pour corriger CVE-2026-23949 (jaraco.context)
+RUN pip install --no-cache-dir --upgrade pip setuptools
+
 # Copier les requirements et installer les dépendances
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
