@@ -14,3 +14,11 @@
 # Ajoutez ici les CVEs à ignorer avec leurs justifications
 # Exemple:
 # CVE-2024-12345  # Ne s'applique pas car nous n'utilisons pas la fonctionnalité vulnérable
+
+# CVE-2026-0861 - glibc: Integer overflow in memalign leads to heap corruption
+# Raison: Pas de correctif disponible dans Debian 13.3 (Trixie) au moment de ce commit (2026-01-22)
+# Affecte: libc-bin et libc6 version 2.41-12+deb13u1
+# Image de base: python:3.11-slim utilise Debian Trixie
+# À revoir: Lorsqu'un patch sera disponible dans les mises à jour de sécurité Debian
+# Status: affected (pas de version fixée disponible)
+CVE-2026-0861

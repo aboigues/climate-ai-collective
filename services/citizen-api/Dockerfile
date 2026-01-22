@@ -7,6 +7,11 @@ WORKDIR /app
 
 # Copier les requirements et installer les dépendances
 COPY requirements.txt .
+
+# Mettre à jour pip et setuptools pour corriger les vulnérabilités
+# setuptools >= 80.0.0 inclut jaraco.context >= 6.1.0 qui corrige CVE-2026-23949
+RUN pip install --no-cache-dir --upgrade pip setuptools
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier le code de l'application
