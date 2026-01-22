@@ -14,3 +14,9 @@
 # Ajoutez ici les CVEs à ignorer avec leurs justifications
 # Exemple:
 # CVE-2024-12345  # Ne s'applique pas car nous n'utilisons pas la fonctionnalité vulnérable
+
+# CVE-2026-0861 - glibc: Integer overflow in memalign leads to heap corruption
+# Status: Aucun correctif disponible (affected), vulnérabilité récente dans glibc 2.41
+# Action: Surveiller les mises à jour Debian pour un patch
+# Révision: 2026-01-22
+CVE-2026-0861
