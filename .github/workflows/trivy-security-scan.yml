@@ -38,7 +38,7 @@ jobs:
           trivyignores: '.trivyignore'
 
       - name: Upload Trivy results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: 'trivy-fs-results.sarif'
@@ -95,7 +95,7 @@ jobs:
           trivyignores: '.trivyignore'
 
       - name: Upload Trivy results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: 'trivy-docker-main-results.sarif'
@@ -136,7 +136,7 @@ jobs:
           trivyignores: '.trivyignore'
 
       - name: Upload Trivy results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: 'trivy-docker-frontend-results.sarif'
@@ -177,7 +177,7 @@ jobs:
           trivyignores: '.trivyignore'
 
       - name: Upload Trivy results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: 'trivy-docker-citizen-api-results.sarif'
