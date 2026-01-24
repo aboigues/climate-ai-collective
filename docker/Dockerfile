@@ -14,15 +14,13 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Copy requirements
-COPY requirements.txt .
+# Copy requirements and constraints
+COPY requirements.txt constraints.txt ./
 
-# Install Python dependencies, then force upgrade security-critical packages
-# CVE-2026-24049: wheel < 0.46.2
-# CVE-2026-23949: jaraco.context < 6.1.0
+# Install Python dependencies with security constraints
+# Constraints force minimum versions for CVE-2026-24049 (wheel) and CVE-2026-23949 (jaraco.context)
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir --upgrade --force-reinstall "wheel>=0.46.2" "jaraco.context>=6.1.0"
+    pip install --no-cache-dir -c constraints.txt -r requirements.txt
 
 # Final stage
 FROM python:3.11-slim

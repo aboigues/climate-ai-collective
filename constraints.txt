@@ -1,0 +1,8 @@
+# Security constraints - force minimum versions for vulnerable packages
+# These constraints override any transitive dependency requirements
+
+# CVE-2026-24049: wheel Privilege Escalation
+wheel>=0.46.2
+
+# CVE-2026-23949: jaraco.context Path traversal
+jaraco.context>=6.1.0

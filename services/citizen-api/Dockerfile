@@ -8,12 +8,10 @@ WORKDIR /app
 # Mettre à jour pip
 RUN pip install --no-cache-dir --upgrade pip
 
-# Copier les requirements et installer les dépendances
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Forcer la mise à jour de wheel pour corriger CVE-2026-24049
-RUN pip install --no-cache-dir --upgrade --force-reinstall "wheel>=0.46.2"
+# Copier les requirements et constraints, puis installer les dépendances
+# Constraints force les versions minimales pour CVE-2026-24049 (wheel) et CVE-2026-23949 (jaraco.context)
+COPY requirements.txt constraints.txt ./
+RUN pip install --no-cache-dir -c constraints.txt -r requirements.txt
 
 # Copier le code de l'application
 COPY main.py .
