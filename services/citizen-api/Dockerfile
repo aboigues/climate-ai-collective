@@ -5,13 +5,15 @@ RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Mettre à jour pip, setuptools et wheel pour corriger les vulnérabilités
-# CVE-2026-24049: wheel < 0.46.2
-RUN pip install --no-cache-dir --upgrade pip setuptools "wheel>=0.46.2"
+# Mettre à jour pip
+RUN pip install --no-cache-dir --upgrade pip
 
 # Copier les requirements et installer les dépendances
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Forcer la mise à jour de wheel pour corriger CVE-2026-24049
+RUN pip install --no-cache-dir --upgrade --force-reinstall "wheel>=0.46.2"
 
 # Copier le code de l'application
 COPY main.py .
