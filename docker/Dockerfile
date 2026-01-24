@@ -17,8 +17,11 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Copy requirements
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Upgrade pip and wheel to fix CVE-2026-24049 (wheel), then install dependencies
+# Also ensure jaraco.context>=6.1.0 for CVE-2026-23949
+RUN pip install --no-cache-dir --upgrade pip wheel>=0.46.2 && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir "jaraco.context>=6.1.0"
 
 # Final stage
 FROM python:3.11-slim
