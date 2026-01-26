@@ -39,6 +39,17 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Fix CVE-2026-24049 (wheel) and CVE-2026-23949 (jaraco.context) in base image
+# The base python:3.11-slim image contains vulnerable versions of these packages
+RUN pip install --no-cache-dir --upgrade pip wheel>=0.46.2 && \
+    pip install --no-cache-dir jaraco.context>=6.1.0 && \
+    # Remove vulnerable .dist-info from system Python
+    find /usr/local/lib -type d -name "wheel-0.4[0-5]*" -exec rm -rf {} + 2>/dev/null || true && \
+    find /usr/local/lib -type d -name "jaraco.context-[0-5]*" -exec rm -rf {} + 2>/dev/null || true && \
+    find /usr/local/lib -type d -name "jaraco_context-[0-5]*" -exec rm -rf {} + 2>/dev/null || true && \
+    find /usr/local/lib -path "*setuptools*/_vendor/jaraco*" -exec rm -rf {} + 2>/dev/null || true && \
+    find /usr/local/lib -path "*setuptools*/_vendor/wheel*" -exec rm -rf {} + 2>/dev/null || true
+
 # Copy virtual environment from builder
 COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
