@@ -1,7 +1,3 @@
-# Security: Force secure versions of vulnerable packages
-wheel>=0.46.2  # CVE-2026-24049
-jaraco.context>=6.1.0  # CVE-2026-23949
-
 # Core dependencies
 fastapi==0.120.3
 uvicorn[standard]==0.27.0

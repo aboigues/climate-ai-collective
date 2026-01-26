@@ -1,23 +1,14 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
-# Mettre à jour les packages de sécurité pour corriger les vulnérabilités
+# Mettre à jour les packages de sécurité
 RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Mettre à jour pip et setuptools
-RUN pip install --no-cache-dir --upgrade pip setuptools
-
-# Copier les requirements et constraints, puis installer les dépendances
-# Constraints force les versions minimales pour CVE-2026-24049 (wheel) et CVE-2026-23949 (jaraco.context)
-COPY requirements.txt constraints.txt ./
-RUN pip install --no-cache-dir -c constraints.txt -r requirements.txt
-
-# Supprimer les packages vendored vulnérables de setuptools
-# CVE-2026-24049 (wheel) et CVE-2026-23949 (jaraco.context)
-RUN find /usr/local -path "*/setuptools/_vendor/jaraco.context*" -exec rm -rf {} + 2>/dev/null || true && \
-    find /usr/local -path "*/setuptools/_vendor/wheel*" -exec rm -rf {} + 2>/dev/null || true && \
-    find /usr/local -path "*/wheel-0.45*" -exec rm -rf {} + 2>/dev/null || true
+# Mettre à jour pip et installer les dépendances
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copier le code de l'application
 COPY main.py .
