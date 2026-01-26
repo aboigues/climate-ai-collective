@@ -1,0 +1,88 @@
+{
+  "id": "transversal-9d14f691",
+  "domain": "transversal",
+  "title": "Plateforme numérique d'accompagnement à la décarbonation",
+  "description": "Création d'une plateforme digitale pour aider citoyens et entreprises à mesurer et réduire leur empreinte carbone.",
+  "status": "generated",
+  "generated_at": "2026-01-26T09:31:50.306347Z",
+  "generated_by": "mock-generator",
+  "version": "1.0",
+  "content": {
+    "summary": "Création d'une plateforme digitale pour aider citoyens et entreprises à mesurer et réduire leur empreinte carbone.",
+    "actions": [
+      "Développement de la plateforme web et mobile",
+      "Intégration de calculateurs d'empreinte carbone",
+      "Recommandations personnalisées basées sur l'IA",
+      "Communauté et gamification pour encourager l'action"
+    ],
+    "implementation": {
+      "phases": [
+        {
+          "name": "Phase 1: Préparation",
+          "duration_months": 6,
+          "tasks": [
+            "Études préliminaires",
+            "Consultations parties prenantes"
+          ]
+        },
+        {
+          "name": "Phase 2: Déploiement",
+          "duration_months": 12,
+          "tasks": [
+            "Mise en œuvre",
+            "Suivi et ajustements"
+          ]
+        },
+        {
+          "name": "Phase 3: Évaluation",
+          "duration_months": 6,
+          "tasks": [
+            "Mesure des impacts",
+            "Rapport final"
+          ]
+        }
+      ],
+      "total_duration_years": 2
+    },
+    "budget": {
+      "total_chf": 5000000,
+      "breakdown": {
+        "infrastructure": 3000000.0,
+        "personnel": 1250000.0,
+        "communication": 250000.0,
+        "contingency": 500000.0
+      }
+    },
+    "impact": {
+      "co2_reduction_tonnes_10y": 50000,
+      "co2_reduction_tonnes_yearly": 5000.0,
+      "additional_benefits": [
+        "Amélioration de la qualité de l'air",
+        "Création d'emplois locaux",
+        "Amélioration de la qualité de vie"
+      ]
+    },
+    "risks": [
+      {
+        "description": "Dépassement budgétaire",
+        "probability": "medium",
+        "mitigation": "Budget de contingence de 10%"
+      },
+      {
+        "description": "Retards administratifs",
+        "probability": "low",
+        "mitigation": "Anticipation des procédures"
+      }
+    ],
+    "stakeholders": [
+      "Collectivités locales",
+      "Citoyens",
+      "Entreprises locales",
+      "Organisations environnementales"
+    ]
+  },
+  "metadata": {
+    "context_version": "1.0",
+    "is_mock": true
+  }
+}
