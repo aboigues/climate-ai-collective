@@ -1,7 +1,7 @@
 # Climate AI Collective - Services Dockerfile
 # Multi-stage build for optimized image size
 
-FROM python:3.11-slim as builder
+FROM python:3.12-slim AS builder
 
 # Install system dependencies and security updates
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
@@ -15,13 +15,14 @@ RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy requirements
-COPY requirements.txt .
+COPY requirements.txt ./
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Final stage
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 # Install runtime dependencies and security updates
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \

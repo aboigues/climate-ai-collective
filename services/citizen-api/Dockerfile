@@ -1,16 +1,14 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
-# Mettre à jour les packages de sécurité pour corriger les vulnérabilités
+# Mettre à jour les packages de sécurité
 RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Mettre à jour pip et setuptools pour corriger CVE-2026-23949 (jaraco.context)
-RUN pip install --no-cache-dir --upgrade pip setuptools
-
-# Copier les requirements et installer les dépendances
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Mettre à jour pip et installer les dépendances
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copier le code de l'application
 COPY main.py .
