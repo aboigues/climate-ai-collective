@@ -18,13 +18,18 @@ ENV PATH="/opt/venv/bin:$PATH"
 COPY requirements.txt constraints.txt ./
 
 # Install Python dependencies with security constraints
-# Constraints force minimum versions for CVE-2026-24049 (wheel) and CVE-2026-23949 (jaraco.context)
-# Also remove vulnerable vendored packages from setuptools
-RUN pip install --no-cache-dir --upgrade pip setuptools && \
+# Fix CVE-2026-24049 (wheel) and CVE-2026-23949 (jaraco.context)
+RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -c constraints.txt -r requirements.txt && \
-    find /opt/venv -path "*/setuptools/_vendor/jaraco.context*" -exec rm -rf {} + 2>/dev/null || true && \
-    find /opt/venv -path "*/setuptools/_vendor/wheel*" -exec rm -rf {} + 2>/dev/null || true && \
-    find /opt/venv -path "*/wheel-0.45*" -exec rm -rf {} + 2>/dev/null || true
+    # Force install secure versions to override any transitive dependencies
+    pip install --no-cache-dir --force-reinstall wheel>=0.46.2 jaraco.context>=6.1.0 && \
+    # Remove any remaining vulnerable .dist-info metadata that Trivy scans
+    find /opt/venv -type d -name "wheel-0.4[0-5]*" -exec rm -rf {} + 2>/dev/null || true && \
+    find /opt/venv -type d -name "jaraco.context-[0-5]*" -exec rm -rf {} + 2>/dev/null || true && \
+    find /opt/venv -type d -name "jaraco_context-[0-5]*" -exec rm -rf {} + 2>/dev/null || true && \
+    # Also remove vendored copies inside setuptools
+    find /opt/venv -path "*setuptools*/_vendor/jaraco*" -exec rm -rf {} + 2>/dev/null || true && \
+    find /opt/venv -path "*setuptools*/_vendor/wheel*" -exec rm -rf {} + 2>/dev/null || true
 
 # Final stage
 FROM python:3.11-slim
