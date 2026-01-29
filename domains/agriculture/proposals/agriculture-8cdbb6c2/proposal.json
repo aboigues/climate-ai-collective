@@ -1,0 +1,88 @@
+{
+  "id": "agriculture-8cdbb6c2",
+  "domain": "agriculture",
+  "title": "Transition vers l'agriculture régénérative",
+  "description": "Accompagnement de 500 exploitations agricoles vers des pratiques régénératives séquestrant du carbone.",
+  "status": "generated",
+  "generated_at": "2026-01-12T09:28:51.056503Z",
+  "generated_by": "mock-generator",
+  "version": "1.0",
+  "content": {
+    "summary": "Accompagnement de 500 exploitations agricoles vers des pratiques régénératives séquestrant du carbone.",
+    "actions": [
+      "Formation des agriculteurs aux techniques régénératives",
+      "Mise en place de cultures de couverture",
+      "Réduction du labour et pratique du semis direct",
+      "Agroforesterie et haies bocagères"
+    ],
+    "implementation": {
+      "phases": [
+        {
+          "name": "Phase 1: Préparation",
+          "duration_months": 6,
+          "tasks": [
+            "Études préliminaires",
+            "Consultations parties prenantes"
+          ]
+        },
+        {
+          "name": "Phase 2: Déploiement",
+          "duration_months": 48,
+          "tasks": [
+            "Mise en œuvre",
+            "Suivi et ajustements"
+          ]
+        },
+        {
+          "name": "Phase 3: Évaluation",
+          "duration_months": 6,
+          "tasks": [
+            "Mesure des impacts",
+            "Rapport final"
+          ]
+        }
+      ],
+      "total_duration_years": 5
+    },
+    "budget": {
+      "total_chf": 25000000,
+      "breakdown": {
+        "infrastructure": 15000000.0,
+        "personnel": 6250000.0,
+        "communication": 1250000.0,
+        "contingency": 2500000.0
+      }
+    },
+    "impact": {
+      "co2_reduction_tonnes_10y": 35000,
+      "co2_reduction_tonnes_yearly": 3500.0,
+      "additional_benefits": [
+        "Amélioration de la qualité de l'air",
+        "Création d'emplois locaux",
+        "Amélioration de la qualité de vie"
+      ]
+    },
+    "risks": [
+      {
+        "description": "Dépassement budgétaire",
+        "probability": "medium",
+        "mitigation": "Budget de contingence de 10%"
+      },
+      {
+        "description": "Retards administratifs",
+        "probability": "low",
+        "mitigation": "Anticipation des procédures"
+      }
+    ],
+    "stakeholders": [
+      "Collectivités locales",
+      "Citoyens",
+      "Entreprises locales",
+      "Organisations environnementales"
+    ]
+  },
+  "metadata": {
+    "context_version": "1.0",
+    "is_mock": true
+  }
+}
