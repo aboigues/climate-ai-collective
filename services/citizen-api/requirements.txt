@@ -1,5 +1,5 @@
 fastapi==0.120.3
 uvicorn[standard]==0.32.1
 pydantic==2.10.3
-python-multipart==0.0.20
+python-multipart>=0.0.22  # Security: CVE-2026-24486 path traversal
 starlette>=0.49.1,<0.50.0
