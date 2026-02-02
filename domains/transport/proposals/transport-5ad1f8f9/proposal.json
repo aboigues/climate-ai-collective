@@ -1,0 +1,88 @@
+{
+  "id": "transport-5ad1f8f9",
+  "domain": "transport",
+  "title": "Extension du réseau de pistes cyclables sécurisées",
+  "description": "Création de 50 km de pistes cyclables protégées dans les zones urbaines pour favoriser la mobilité douce et réduire les émissions de CO2.",
+  "status": "generated",
+  "generated_at": "2026-02-02T09:42:27.769318Z",
+  "generated_by": "mock-generator",
+  "version": "1.0",
+  "content": {
+    "summary": "Création de 50 km de pistes cyclables protégées dans les zones urbaines pour favoriser la mobilité douce et réduire les émissions de CO2.",
+    "actions": [
+      "Identifier les axes prioritaires en collaboration avec les collectivités",
+      "Concevoir des pistes séparées du trafic automobile",
+      "Installer des stationnements vélo sécurisés aux points d'intérêt",
+      "Mettre en place une signalétique claire et cohérente"
+    ],
+    "implementation": {
+      "phases": [
+        {
+          "name": "Phase 1: Préparation",
+          "duration_months": 6,
+          "tasks": [
+            "Études préliminaires",
+            "Consultations parties prenantes"
+          ]
+        },
+        {
+          "name": "Phase 2: Déploiement",
+          "duration_months": 24,
+          "tasks": [
+            "Mise en œuvre",
+            "Suivi et ajustements"
+          ]
+        },
+        {
+          "name": "Phase 3: Évaluation",
+          "duration_months": 6,
+          "tasks": [
+            "Mesure des impacts",
+            "Rapport final"
+          ]
+        }
+      ],
+      "total_duration_years": 3
+    },
+    "budget": {
+      "total_chf": 15000000,
+      "breakdown": {
+        "infrastructure": 9000000.0,
+        "personnel": 3750000.0,
+        "communication": 750000.0,
+        "contingency": 1500000.0
+      }
+    },
+    "impact": {
+      "co2_reduction_tonnes_10y": 8500,
+      "co2_reduction_tonnes_yearly": 850.0,
+      "additional_benefits": [
+        "Amélioration de la qualité de l'air",
+        "Création d'emplois locaux",
+        "Amélioration de la qualité de vie"
+      ]
+    },
+    "risks": [
+      {
+        "description": "Dépassement budgétaire",
+        "probability": "medium",
+        "mitigation": "Budget de contingence de 10%"
+      },
+      {
+        "description": "Retards administratifs",
+        "probability": "low",
+        "mitigation": "Anticipation des procédures"
+      }
+    ],
+    "stakeholders": [
+      "Collectivités locales",
+      "Citoyens",
+      "Entreprises locales",
+      "Organisations environnementales"
+    ]
+  },
+  "metadata": {
+    "context_version": "1.0",
+    "is_mock": true
+  }
+}
