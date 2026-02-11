@@ -1,0 +1,18 @@
+{
+  "valid": true,
+  "score": 10.0,
+  "issues": [],
+  "recommendations": [
+    "High cost per tonne CO2: 5333.33 CHF/tonne"
+  ],
+  "metadata": {
+    "validation_method": "simple",
+    "validated_at": "2025-12-08T09:23:31.159064Z",
+    "validator_version": "1.0"
+  },
+  "details": {
+    "cost_per_tonne_co2": 5333.33,
+    "timeline_months": 60,
+    "annual_co2_reduction": 1500.0
+  }
+}
