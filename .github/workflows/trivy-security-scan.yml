@@ -8,10 +8,10 @@ on:
   pull_request:
     branches:
       - main
-  schedule:
+  #schedule:
     # Scan quotidien à 2h du matin UTC
-    - cron: '0 2 * * *'
-  workflow_dispatch:
+   # - cron: '0 2 * * *'
+  #workflow_dispatch:
 
 jobs:
   scan-filesystem:
